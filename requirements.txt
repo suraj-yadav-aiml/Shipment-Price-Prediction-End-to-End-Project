@@ -1,0 +1,5 @@
+pandas
+pymongo
+notebook
+pymongo[srv]
+ipykernel
