@@ -20,3 +20,4 @@ dill
 evidently==0.2.8
 catboost
 category-encoders
+-e .
