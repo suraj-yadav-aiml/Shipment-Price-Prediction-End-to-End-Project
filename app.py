@@ -1,7 +1,4 @@
-from shipment.exception import ShippingException
-import sys
+from shipment.pipeline.training_pipeline import TrainPipeline
 
-try:
-    1/0
-except Exception as e:
-    raise ShippingException(e,sys)
+pipeline = TrainPipeline()
+pipeline.run_pipeline()
