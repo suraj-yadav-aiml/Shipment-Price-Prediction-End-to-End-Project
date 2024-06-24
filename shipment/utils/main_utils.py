@@ -321,7 +321,7 @@ class MainUtils:
         logger.info("Entered the create_artifacts_zip method of MainUtils class")
         try:
             shutil.make_archive(file_name, "zip", folder_name)
-            logging.info("Exited the create_artifacts_zip method of MainUtils class")
+            logger.info("Exited the create_artifacts_zip method of MainUtils class")
         except Exception as e:
             raise ShippingException(e, sys) from e
 
