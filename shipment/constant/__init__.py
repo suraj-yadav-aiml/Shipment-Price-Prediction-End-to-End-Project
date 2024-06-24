@@ -5,7 +5,7 @@ from from_root.root import from_root
 
 LOGGING_DIR = "logs"
 
-TIMESTAMP: str = datetime.now().strftime("%m_%d_%Y_%H_%M_%S")
+TIMESTAMP: str = datetime.now().strftime("%d_%m_%Y_%H_%M_%S")
 
 MODEL_CONFIG_FILE = "config/model.yaml"
 SCHEMA_FILE_PATH = "config/schema.yaml"
