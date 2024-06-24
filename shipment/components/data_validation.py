@@ -9,7 +9,7 @@ from pandas import DataFrame
 from evidently.model_profile import Profile
 from evidently.model_profile.sections import DataDriftProfileSection
 
-from shipment.logger import logging
+from shipment.logger import logger
 from shipment.exception import ShippingException
 
 from shipment.entity.config_entity import DataValidationConfig
@@ -52,7 +52,7 @@ class DataValidation:
         Raises:
             ShippingException: If an error occurs during validation.
         """
-        logging.info("Validating dataframe columns against the schema.")
+        logger.info("Validating dataframe columns against the schema.")
         try:
             schema_columns: List[Dict[str, Union[str, float, int]]] = self.data_validation_config.SCHEMA_CONFIG["columns"]  #[{'Customer Id': 'object'},
                                                                                                                             #  {'Artist Name': 'object'},
@@ -64,10 +64,10 @@ class DataValidation:
             # Compare the number of columns, ensuring all columns exist
             if len(df.columns) != len(schema_columns):
                 validation_status = False
-                logging.info("Dataframe columns do not match the schema.")
+                logger.info("Dataframe columns do not match the schema.")
             else:
                 validation_status = True
-                logging.info("Dataframe columns validated successfully.")
+                logger.info("Dataframe columns validated successfully.")
 
             return validation_status
 
@@ -88,17 +88,17 @@ class DataValidation:
         Raises:
             ShippingException: If an error occurs during validation.
         """
-        logging.info("Checking if all numerical columns exist in the dataframe")
+        logger.info("Checking if all numerical columns exist in the dataframe")
         try:
             numerical_columns: List[str] = self.data_validation_config.SCHEMA_CONFIG["numerical_columns"] 
             
             missing_columns = set(numerical_columns) - set(df.columns)  
             if missing_columns:
                 for column in missing_columns:
-                    logging.info(f"Numerical column - {column} not found in dataframe")
+                    logger.info(f"Numerical column - {column} not found in dataframe")
                 return False  
             else:
-                logging.info("All numerical columns are present in the dataframe")
+                logger.info("All numerical columns are present in the dataframe")
                 return True
 
         except Exception as e:
@@ -118,17 +118,17 @@ class DataValidation:
         Raises:
             ShippingException: If an error occurs during validation.
         """
-        logging.info("Checking if all categorical columns exist in the dataframe")
+        logger.info("Checking if all categorical columns exist in the dataframe")
         try:
             categorical_columns: List[str] = self.data_validation_config.SCHEMA_CONFIG["categorical_columns"]
 
             missing_columns = set(categorical_columns) - set(df.columns)  
             if missing_columns:
                 for column in missing_columns:
-                    logging.info(f"Categorical column - {column} not found in dataframe")
+                    logger.info(f"Categorical column - {column} not found in dataframe")
                 return False 
             else:
-                logging.info("All categorical columns are present in the dataframe")
+                logger.info("All categorical columns are present in the dataframe")
                 return True
 
         except Exception as e:
@@ -143,7 +143,7 @@ class DataValidation:
             Tuple[bool, bool]: A tuple where the first element indicates if the train DataFrame
                 schema is valid, and the second element indicates if the test DataFrame schema is valid.
         """
-        logging.info("Validating train and test dataset schema columns")
+        logger.info("Validating train and test dataset schema columns")
         try:
             train_schema_status = self.validate_schema_columns(self.train_set)
             test_schema_status = self.validate_schema_columns(self.test_set)
@@ -160,7 +160,7 @@ class DataValidation:
                 columns exist in the train DataFrame, and the second element indicates if 
                 all numerical columns exist in the test DataFrame.
         """
-        logging.info(
+        logger.info(
             "Validating if numerical columns exist in train and test datasets"
         )
         try:
@@ -179,7 +179,7 @@ class DataValidation:
                 columns exist in the train DataFrame, and the second element indicates if 
                 all categorical columns exist in the test DataFrame.
         """
-        logging.info(
+        logger.info(
             "Validating if categorical columns exist in train and test datasets"
         )
         try:
@@ -209,7 +209,7 @@ class DataValidation:
         Raises:
             ShippingException: If an error occurs during drift detection.
         """
-        logging.info("Detecting dataset drift...")
+        logger.info("Detecting dataset drift...")
 
         try:
             drift_profile = Profile(sections=[DataDriftProfileSection()])
@@ -243,7 +243,7 @@ class DataValidation:
         Returns:
             DataValidationArtifacts: Contains the drift report file path and the validation status.
         """
-        logging.info("Starting data validation")
+        logger.info("Starting data validation")
         try:
 
             self.train_set = pd.read_csv(
@@ -257,25 +257,25 @@ class DataValidation:
                 self.data_validation_config.DATA_VALIDATION_ARTIFACTS_DIR,
                 exist_ok=True,
             )
-            logging.info("Created directory for data validation artifacts")
+            logger.info("Created directory for data validation artifacts")
 
             train_schema_status, test_schema_status = self.validate_dataset_schema_columns()
-            logging.info(
+            logger.info(
                 f"Train schema status: {train_schema_status}, Test schema status: {test_schema_status}"
             )
 
             train_num_cols_exist, test_num_cols_exist = self.validate_is_numerical_column_exists()
-            logging.info(
+            logger.info(
                 f"Train numerical columns status: {train_num_cols_exist}, Test numerical columns status: {test_num_cols_exist}"
             )
 
             train_cat_cols_exist, test_cat_cols_exist = self.validate_is_categorical_column_exists()
-            logging.info(
+            logger.info(
                 f"Train categorical columns status: {train_cat_cols_exist}, Test categorical columns status: {test_cat_cols_exist}"
             )
 
             drift_detected = self.detect_dataset_drift(self.train_set, self.test_set)
-            logging.info(f"Data drift detected: {drift_detected}")
+            logger.info(f"Data drift detected: {drift_detected}")
             
             validation_status = (
                 train_schema_status
@@ -292,7 +292,7 @@ class DataValidation:
                 validation_status=validation_status,
             )
 
-            logging.info("Data validation completed")
+            logger.info("Data validation completed")
             return data_validation_artifacts
 
         except Exception as e:
