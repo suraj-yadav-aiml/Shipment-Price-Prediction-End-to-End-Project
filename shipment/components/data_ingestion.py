@@ -111,7 +111,7 @@ class DataIngestion:
         logger.info("Initiating data ingestion")
         try:
             df = self.get_data_from_mongodb()
-            df = df.drop(self.data_ingestion_config.DROP_COLS, axis=1)
+            # df = df.drop(self.data_ingestion_config.DROP_COLS, axis=1)
             df = df.dropna()
             
             logger.info("Data preprocessing completed.")
