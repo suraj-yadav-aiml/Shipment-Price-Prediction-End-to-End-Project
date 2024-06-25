@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Shipping Cost Prediction</title>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .display-4 {
+                font-size: 2.25rem; 
+                font-weight: 700;  
+            }
+            .fw-bolder {
+                font-weight: 700; 
+            }
+        }
+        body {
+            background-image: linear-gradient(to right, #4CAF50, #2196F3); 
+        }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script> 
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center" >
+    <h2 class="text-4xl font-extrabold mb-8 text-center text-white">Shipping Cost Prediction</h2>
+    <form action="/predict" method="post" class="bg-white p-8 rounded-lg shadow-md w-3/4" method="post">
+        <a href="https://github.com/suraj-yadav-aiml/Shipment-Price-Prediction-End-to-End-Project" target="_blank" class="absolute top-4 right-4 bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded inline-flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            </svg>
+            GitHub
+        </a>
+        <div class="grid grid-cols-2 gap-4">
+
+        <div class="mb-4">
+            <label for="artist" class="block text-gray-700 text-sm font-bold mb-2">Artist Reputation</label>
+            <input type="number" id="artist" name="artist" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+        </div>
+
+        <div class="mb-4">
+            <label for="height" class="block text-gray-700 text-sm font-bold mb-2">Height</label>
+            <input type="number" id="height" name="height" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+        </div>
+        
+        <div class="mb-4">
+            <label for="width" class="block text-gray-700 text-sm font-bold mb-2">Width</label>
+            <input type="number" id="width" name="width" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+        </div>
+
+        <div class="mb-4">
+            <label for="weight" class="block text-gray-700 text-sm font-bold mb-2">Weight</label>
+            <input type="number" id="weight" name="weight" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+        </div>
+
+
+        <div class="mb-4">
+            <label for="material" class="block text-gray-700 text-sm font-bold mb-2">Select Material</label>
+            <select id="material" name="material" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                <option value="" disabled selected>Material</option>
+                <option>Aluminium</option>
+                <option>Marble</option>
+                <option>Bronze</option>
+                <option>Clay</option>
+                <option>Brass</option>
+                <option>Wood</option>
+                <option>Stone</option>
+            </select>
+        </div>
+        
+
+        <div class="mb-4">
+            <label for="priceOfSculpture" class="block text-gray-700 text-sm font-bold mb-2">Price of Sculpture</label>
+            <input type="number" id="priceOfSculpture" name="priceOfSculpture" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+        </div>
+        
+
+        <div class="mb-4">
+            <label for="baseShippingPrice" class="block text-gray-700 text-sm font-bold mb-2">Base Shipping Price</label>
+            <input type="number" id="baseShippingPrice" name="baseShippingPrice" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+        </div>
+
+        <div class="mb-4">
+            <label for="international" class="block text-gray-700 text-sm font-bold mb-2">International</label>
+            <select id="international" name="international" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                <option value="" disabled selected>International</option>
+                <option>Yes</option>
+                <option>No</option>
+            </select>
+        </div>
+        
+
+        <div class="mb-4">
+            <label for="expressShipment" class="block text-gray-700 text-sm font-bold mb-2">Express Shipment</label>
+            <select id="expressShipment" name="expressShipment" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                <option value="" disabled selected>Express Shipment</option>
+                <option>Yes</option>
+                <option>No</option>
+            </select>
+        </div>
+       
+
+        <div class="mb-4">
+            <label for="installationIncluded" class="block text-gray-700 text-sm font-bold mb-2">Installation Included</label>
+            <select id="installationIncluded" name="installationIncluded" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                <option value="" disabled selected>Installation Included</option>
+                <option>Yes</option>
+                <option>No</option>
+            </select>
+        </div>
+        
+        <div class="mb-4">
+            <label for="transport" class="block text-gray-700 text-sm font-bold mb-2">Transport</label>
+            <select id="transport" name="transport" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                <option value="" disabled selected>Transport</option>
+                <option>Airways</option>
+                <option>Roadways</option>
+                <option>Waterways</option>
+            </select>
+        </div>
+        
+        <div class="mb-4">
+            <label for="fragile" class="block text-gray-700 text-sm font-bold mb-2">Fragile</label>
+            <select id="fragile" name="fragile" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                <option value="" disabled selected>Fragile</option>
+                <option>Yes</option>
+                <option>No</option>
+            </select>
+        </div>
+        
+        <div class="mb-4">
+            <label for="customerInformation" class="block text-gray-700 text-sm font-bold mb-2">Customer Information</label>
+            <select id="customerInformation" name="customerInformation" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                <option value="" disabled selected>Customer Information</option>
+                <option>Wealthy</option>
+                <option>Working Class</option>
+            </select>
+        </div>
+
+
+        <div class="mb-4">
+            <label for="remoteLocation" class="block text-gray-700 text-sm font-bold mb-2">Remote Location</label>
+            <select id="remoteLocation" name="remoteLocation" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                <option value="" disabled selected>remoteLocation</option>
+                <option>Yes</option>
+                <option>No</option>
+            </select>
+        </div>
+
+        
+    
+    </div>
+    <div class="flex items-center justify-center">
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-300 ease-in-out transform hover:scale-110" type="submit">
+            Predict
+        </button>
+    </div>
+    <div class="text-center text-black mt-8">
+        <h2 class="display-4 fw-bolder">The shipment cost is  {{context}} </h2>
+    </div>
+
+    
+    </form>
+    
+    
+    
+    
+
