@@ -3,17 +3,23 @@ train_model:
     max_depth:
     - 5
     - 8
+    - 10
     max_features:
     - 5
     - 7
+    - 9
+    - 11
     n_estimators:
     - 50
     - 100
     - 150
+    - 200
   XGBRegressor:
     learning_rate:
     - 0.01
+    - 0.03
     - 0.1
+    - 1
     max_depth:
     - 5
     - 8
@@ -21,4 +27,5 @@ train_model:
     n_estimators:
     - 100
     - 200
+    - 300
 base_model_score: '0.1'

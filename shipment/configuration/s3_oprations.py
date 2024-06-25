@@ -8,7 +8,7 @@ from typing import Union, List, Optional, Any
 import boto3
 from botocore.exceptions import ClientError
 from mypy_boto3_s3.service_resource import Bucket
-from pandas import DataFrame, read_csv
+from pandas import DataFrame
 
 from shipment.logger import logging
 from shipment.exception import ShippingException
@@ -172,7 +172,7 @@ class S3Operation:
         try:
             model_path = model_name if model_dir is None else os.path.join(model_dir, model_name)
             f_obj = self.get_file_object(model_path, bucket_name)
-            model_obj = self.read_object(f_obj, decode=False)  # Read as bytes
+            model_obj = self.read_object(f_obj.key, bucket_name ,decode=False)  # Read as bytes
             model = pickle.loads(model_obj)  
             logging.info("Model loaded successfully")
             return model

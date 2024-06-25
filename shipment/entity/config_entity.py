@@ -108,3 +108,12 @@ class ModelEvaluationConfig:
         self.BEST_MODEL_PATH: str = os.path.join(
             from_root(), ARTIFACTS_DIR, MODEL_TRAINER_ARTIFACTS_DIR, MODEL_FILE_NAME
         )
+
+@dataclass
+class ModelPusherConfig:
+    def __init__(self):
+        self.BEST_MODEL_PATH: str = os.path.join(
+            from_root(), ARTIFACTS_DIR, MODEL_TRAINER_ARTIFACTS_DIR, MODEL_FILE_NAME
+        )
+        self.BUCKET_NAME: str = BUCKET_NAME
+        self.S3_MODEL_KEY_PATH: str = os.path.join(S3_MODEL_NAME)
