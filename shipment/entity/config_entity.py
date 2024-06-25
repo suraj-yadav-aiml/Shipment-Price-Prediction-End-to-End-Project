@@ -3,6 +3,7 @@ from from_root import from_root
 import os
 
 from shipment.utils.main_utils import MainUtils
+from shipment.configuration.s3_oprations import S3Operation
 from shipment.constant import *
 
 
@@ -93,5 +94,17 @@ class ModelTrainerConfig:
             self.DATA_TRANSFORMATION_ARTIFACTS_DIR, PREPROCESSOR_OBJECT_FILE_NAME
         )
         self.TRAINED_MODEL_FILE_PATH: str = os.path.join(
+            from_root(), ARTIFACTS_DIR, MODEL_TRAINER_ARTIFACTS_DIR, MODEL_FILE_NAME
+        )
+
+@dataclass
+class ModelEvaluationConfig:
+    def __init__(self):
+        self.S3_OPERATIONS = S3Operation()
+        self.UTILS = MainUtils()
+        self.SCHEMA_CONFIG = self.UTILS.read_yaml_file(filename=SCHEMA_FILE_PATH)
+        self.DROP_COLS = list(self.SCHEMA_CONFIG["drop_columns"])
+        self.BUCKET_NAME: str = BUCKET_NAME
+        self.BEST_MODEL_PATH: str = os.path.join(
             from_root(), ARTIFACTS_DIR, MODEL_TRAINER_ARTIFACTS_DIR, MODEL_FILE_NAME
         )

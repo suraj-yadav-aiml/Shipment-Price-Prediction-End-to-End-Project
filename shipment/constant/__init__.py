@@ -42,7 +42,7 @@ MODEL_FILE_NAME = "shipping_price_model.pkl"
 MODEL_SAVE_FORMAT = ".pkl"
 
 
-BUCKET_NAME = "shipment-model-io-files"
+BUCKET_NAME = "shipment-price-prediction-2024"
 S3_MODEL_NAME = "shipping_price_model.pkl"
 
 
